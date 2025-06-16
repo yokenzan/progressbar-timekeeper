@@ -1,0 +1,190 @@
+name: Auto Release on Version Change
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - 'Directory.Build.props'
+
+permissions:
+  contents: write
+
+jobs:
+  check-version-change:
+    runs-on: ubuntu-latest
+    outputs:
+      version_changed: ${{ steps.check.outputs.version_changed }}
+      new_version: ${{ steps.check.outputs.new_version }}
+      
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 2
+        
+    - name: Check if version changed
+      id: check
+      run: |
+        # Get current version
+        CURRENT_VERSION=$(grep -oP '(?<=<VersionPrefix>)[^<]+' Directory.Build.props)
+        echo "Current version: $CURRENT_VERSION"
+        
+        # Get previous version (from previous commit)
+        git checkout HEAD~1 -- Directory.Build.props 2>/dev/null || echo "No previous version found"
+        PREVIOUS_VERSION=$(grep -oP '(?<=<VersionPrefix>)[^<]+' Directory.Build.props 2>/dev/null || echo "none")
+        echo "Previous version: $PREVIOUS_VERSION"
+        
+        # Restore current version
+        git checkout HEAD -- Directory.Build.props
+        
+        # Check if version changed
+        if [ "$CURRENT_VERSION" != "$PREVIOUS_VERSION" ] && [ "$PREVIOUS_VERSION" != "none" ]; then
+          echo "Version changed from $PREVIOUS_VERSION to $CURRENT_VERSION"
+          echo "version_changed=true" >> $GITHUB_OUTPUT
+          echo "new_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+        else
+          echo "No version change detected"
+          echo "version_changed=false" >> $GITHUB_OUTPUT
+          echo "new_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+        fi
+
+  auto-release:
+    needs: check-version-change
+    if: needs.check-version-change.outputs.version_changed == 'true'
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+        
+    - name: Get version
+      id: version
+      run: |
+        VERSION="${{ needs.check-version-change.outputs.new_version }}"
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "tag=v$VERSION" >> $GITHUB_OUTPUT
+        
+    # Build Framework-dependent binaries
+    - name: Build Framework-dependent Windows x64
+      run: dotnet publish wpf/RemMeter.csproj --configuration Release --runtime win-x64 --self-contained false --output ./release/framework-dependent/win-x64 --property:PublishSingleFile=true
+      
+    - name: Build Framework-dependent Windows x86
+      run: dotnet publish wpf/RemMeter.csproj --configuration Release --runtime win-x86 --self-contained false --output ./release/framework-dependent/win-x86 --property:PublishSingleFile=true
+      
+    # Build Self-contained binaries
+    - name: Build Self-contained Windows x64
+      run: dotnet publish wpf/RemMeter.csproj --configuration Release --runtime win-x64 --self-contained true --output ./release/self-contained/win-x64 --property:PublishSingleFile=true --property:PublishTrimmed=false
+      
+    - name: Build Self-contained Windows x86
+      run: dotnet publish wpf/RemMeter.csproj --configuration Release --runtime win-x86 --self-contained true --output ./release/self-contained/win-x86 --property:PublishSingleFile=true --property:PublishTrimmed=false
+      
+    # Rename files with version
+    - name: Prepare release files
+      run: |
+        VERSION="${{ steps.version.outputs.version }}"
+        mkdir -p ./release/final
+        
+        # Copy and rename with version
+        cp "./release/framework-dependent/win-x64/RemMeter.exe" "./release/final/RemMeter-${VERSION}-framework-dependent-win-x64.exe"
+        cp "./release/framework-dependent/win-x86/RemMeter.exe" "./release/final/RemMeter-${VERSION}-framework-dependent-win-x86.exe"
+        cp "./release/self-contained/win-x64/RemMeter.exe" "./release/final/RemMeter-${VERSION}-self-contained-win-x64.exe"
+        cp "./release/self-contained/win-x86/RemMeter.exe" "./release/final/RemMeter-${VERSION}-self-contained-win-x86.exe"
+        
+        # List files for verification
+        echo "Release files created:"
+        ls -la ./release/final/
+        
+    - name: Generate release notes
+      id: release_notes
+      run: |
+        VERSION="${{ steps.version.outputs.version }}"
+        
+        # Get commits since last tag
+        PREVIOUS_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+        
+        if [ -z "$PREVIOUS_TAG" ]; then
+          echo "No previous tag found, including recent commits"
+          COMMITS=$(git log --pretty=format:"- %s (%h)" --max-count=10 --reverse)
+        else
+          echo "Previous tag: $PREVIOUS_TAG"
+          COMMITS=$(git log --pretty=format:"- %s (%h)" --reverse $PREVIOUS_TAG..HEAD)
+        fi
+        
+        # Create release notes
+        cat > release_notes.md << EOF
+        ## RemMeter v${VERSION}
+        
+        ### Changes in this release:
+        
+        $COMMITS
+        
+        ### 📥 Installation
+        
+        Download the appropriate version for your system:
+        
+        #### 🎯 Framework-dependent (Recommended - Smaller size ~5-10MB)
+        - **RemMeter-${VERSION}-framework-dependent-win-x64.exe** - 64-bit Windows
+        - **RemMeter-${VERSION}-framework-dependent-win-x86.exe** - 32-bit Windows
+        
+        ⚠️ **Requires**: .NET 8.0 Desktop Runtime
+        - If not installed, the app will guide you to download it automatically
+        - [Direct download link](https://dotnet.microsoft.com/download/dotnet/8.0)
+        
+        #### 🔧 Self-contained (Larger size ~80-120MB, no runtime required)
+        - **RemMeter-${VERSION}-self-contained-win-x64.exe** - 64-bit Windows
+        - **RemMeter-${VERSION}-self-contained-win-x86.exe** - 32-bit Windows
+        
+        ✅ **No .NET runtime required** - runs on any Windows PC
+        
+        ### ✨ Features
+        - 4 display positions: right/left/top/bottom edges
+        - Multi-monitor support
+        - Visual progress with color transitions (green → orange → red blinking)
+        - Always on top display
+        - Hover controls: pause/resume/stop
+        - Multilingual support (English, Japanese, Chinese)
+        
+        ### 💻 System Requirements
+        - Windows 10/11
+        - Framework-dependent: .NET 8.0 Desktop Runtime
+        - Self-contained: No additional software required
+        
+        ---
+        🤖 **Auto-generated release** - Created when version changed in master branch
+        EOF
+        
+        echo "release_notes_file=release_notes.md" >> $GITHUB_OUTPUT
+        
+    - name: Create version tag
+      run: |
+        TAG="${{ steps.version.outputs.tag }}"
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git tag -a "$TAG" -m "Release version ${{ steps.version.outputs.version }}"
+        git push origin "$TAG"
+        
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ steps.version.outputs.tag }}
+        name: RemMeter v${{ steps.version.outputs.version }}
+        body_path: ${{ steps.release_notes.outputs.release_notes_file }}
+        files: |
+          ./release/final/RemMeter-${{ steps.version.outputs.version }}-framework-dependent-win-x64.exe
+          ./release/final/RemMeter-${{ steps.version.outputs.version }}-framework-dependent-win-x86.exe
+          ./release/final/RemMeter-${{ steps.version.outputs.version }}-self-contained-win-x64.exe
+          ./release/final/RemMeter-${{ steps.version.outputs.version }}-self-contained-win-x86.exe
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Update release summary
+      run: |
+        echo "🎉 **Auto-release completed!**"
+        echo "📦 **Version**: ${{ steps.version.outputs.version }}"
+        echo "🏷️ **Tag**: ${{ steps.version.outputs.tag }}"
+        echo "📥 **Download**: https://github.com/${{ github.repository }}/releases/tag/${{ steps.version.outputs.tag }}"
