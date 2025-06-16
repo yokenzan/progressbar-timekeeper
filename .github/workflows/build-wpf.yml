@@ -169,6 +169,10 @@ jobs:
       with:
         dotnet-version: 8.0.x
         
+    - name: Get version from tag
+      id: get_version
+      run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+        
     # Framework-dependent builds for release
     - name: Publish Framework-dependent Windows x64 for Release
       run: dotnet publish wpf/RemainingTimeMeter.csproj --configuration Release --runtime win-x64 --self-contained false --output ./release/framework-dependent/win-x64 --property:PublishSingleFile=true
@@ -183,22 +187,23 @@ jobs:
     - name: Publish Self-contained Windows x86 for Release
       run: dotnet publish wpf/RemainingTimeMeter.csproj --configuration Release --runtime win-x86 --self-contained true --output ./release/self-contained/win-x86 --property:PublishSingleFile=true --property:PublishTrimmed=false
       
-    # Rename files for clarity
-    - name: Rename release files
+    # Rename files with version
+    - name: Rename release files with version
       run: |
-        mv "./release/framework-dependent/win-x64/RemainingTimeMeter.exe" "./release/RemainingTimeMeter-framework-dependent-win-x64.exe"
-        mv "./release/framework-dependent/win-x86/RemainingTimeMeter.exe" "./release/RemainingTimeMeter-framework-dependent-win-x86.exe"
-        mv "./release/self-contained/win-x64/RemainingTimeMeter.exe" "./release/RemainingTimeMeter-self-contained-win-x64.exe"
-        mv "./release/self-contained/win-x86/RemainingTimeMeter.exe" "./release/RemainingTimeMeter-self-contained-win-x86.exe"
+        VERSION="${{ steps.get_version.outputs.version }}"
+        mv "./release/framework-dependent/win-x64/RemMeter.exe" "./release/RemMeter-${VERSION}-framework-dependent-win-x64.exe"
+        mv "./release/framework-dependent/win-x86/RemMeter.exe" "./release/RemMeter-${VERSION}-framework-dependent-win-x86.exe"
+        mv "./release/self-contained/win-x64/RemMeter.exe" "./release/RemMeter-${VERSION}-self-contained-win-x64.exe"
+        mv "./release/self-contained/win-x86/RemMeter.exe" "./release/RemMeter-${VERSION}-self-contained-win-x86.exe"
       
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          ./release/RemainingTimeMeter-framework-dependent-win-x64.exe
-          ./release/RemainingTimeMeter-framework-dependent-win-x86.exe
-          ./release/RemainingTimeMeter-self-contained-win-x64.exe
-          ./release/RemainingTimeMeter-self-contained-win-x86.exe
+          ./release/RemMeter-${{ steps.get_version.outputs.version }}-framework-dependent-win-x64.exe
+          ./release/RemMeter-${{ steps.get_version.outputs.version }}-framework-dependent-win-x86.exe
+          ./release/RemMeter-${{ steps.get_version.outputs.version }}-self-contained-win-x64.exe
+          ./release/RemMeter-${{ steps.get_version.outputs.version }}-self-contained-win-x86.exe
         name: Remaining Time Meter ${{ github.ref_name }}
         body: |
           ## Remaining Time Meter - WPF版

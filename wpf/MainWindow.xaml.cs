@@ -1,5 +1,5 @@
-// <copyright file="MainWindow.xaml.cs" company="RemainingTimeMeter">
-// Copyright (c) 2025 RemainingTimeMeter. Licensed under the MIT License.
+// <copyright file="MainWindow.xaml.cs" company="RemMeter">
+// Copyright (c) 2025 RemMeter. Licensed under the MIT License.
 // </copyright>
 
 using System;
@@ -9,11 +9,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
-using RemainingTimeMeter.Helpers;
-using RemainingTimeMeter.Models;
-using RemainingTimeMeter.Validation;
+using RemMeter.Helpers;
+using RemMeter.Models;
+using RemMeter.Validation;
 
-namespace RemainingTimeMeter
+namespace RemMeter
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml.
@@ -37,6 +37,9 @@ namespace RemainingTimeMeter
                 Logger.Debug("InitializeComponent completed");
                 this.LoadDisplays();
                 Logger.Debug("LoadDisplays completed");
+
+                // Set window title with version
+                this.Title = VersionHelper.GetTitleWithVersion();
 
                 // Initialize time display after UI is fully loaded
                 this.Loaded += (s, e) =>
