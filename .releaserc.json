@@ -12,7 +12,7 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "sed -i 's/<VersionPrefix>[^<]*<\\/VersionPrefix>/<VersionPrefix>${nextRelease.version}<\\/VersionPrefix>/' Directory.Build.props"
+        "prepareCmd": "sed -i 's/<VersionPrefix>[^<]*<\\/VersionPrefix>/<VersionPrefix>${nextRelease.version}<\\/VersionPrefix>/' Directory.Build.props && ./scripts/prepare-release.sh ${nextRelease.version}"
       }
     ],
     [
@@ -21,21 +21,22 @@
         "assets": [
           {
             "path": "release/RemMeter-${nextRelease.version}-framework-dependent-win-x64.exe",
-            "label": "RemMeter Framework-dependent Windows x64"
+            "label": "RemMeter v${nextRelease.version} - Framework-dependent Windows x64"
           },
           {
             "path": "release/RemMeter-${nextRelease.version}-framework-dependent-win-x86.exe", 
-            "label": "RemMeter Framework-dependent Windows x86"
+            "label": "RemMeter v${nextRelease.version} - Framework-dependent Windows x86"
           },
           {
             "path": "release/RemMeter-${nextRelease.version}-self-contained-win-x64.exe",
-            "label": "RemMeter Self-contained Windows x64"
+            "label": "RemMeter v${nextRelease.version} - Self-contained Windows x64"
           },
           {
             "path": "release/RemMeter-${nextRelease.version}-self-contained-win-x86.exe",
-            "label": "RemMeter Self-contained Windows x86"
+            "label": "RemMeter v${nextRelease.version} - Self-contained Windows x86"
           }
-        ]
+        ],
+        "releaseBodyTemplate": "## RemMeter v${nextRelease.version}\\n\\n### 📥 Installation\\n\\nDownload the appropriate version for your system:\\n\\n#### 🎯 Framework-dependent (Recommended - Smaller size ~5-10MB)\\n- **RemMeter-${nextRelease.version}-framework-dependent-win-x64.exe** - 64-bit Windows\\n- **RemMeter-${nextRelease.version}-framework-dependent-win-x86.exe** - 32-bit Windows\\n\\n⚠️ **Requires**: .NET 8.0 Desktop Runtime ([Download](https://dotnet.microsoft.com/download/dotnet/8.0))\\n\\n#### 🔧 Self-contained (Larger size ~80-120MB, no runtime required)\\n- **RemMeter-${nextRelease.version}-self-contained-win-x64.exe** - 64-bit Windows\\n- **RemMeter-${nextRelease.version}-self-contained-win-x86.exe** - 32-bit Windows\\n\\n✅ **No .NET runtime required** - runs on any Windows PC\\n\\n### 💻 System Requirements\\n- Windows 10/11\\n- Framework-dependent: .NET 8.0 Desktop Runtime\\n- Self-contained: No additional software required\\n\\n---\\n\\n### 🔄 Changes\\n\\n${nextRelease.notes}"
       }
     ],
     [

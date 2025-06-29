@@ -1,8 +1,9 @@
-name: Release
+name: Build and Release
 
 on:
   push:
     branches: [master]
+    tags: ['v*']
 
 permissions:
   contents: write
@@ -10,123 +11,137 @@ permissions:
   pull-requests: write
 
 jobs:
-  release:
+  build:
+    uses: ./.github/workflows/build.yml
+
+  publish-latest:
+    needs: build
     runs-on: ubuntu-latest
-    
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-        token: ${{ secrets.GITHUB_TOKEN }}
-        
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
-        
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
-        
-    - name: Install dependencies
-      run: npm ci
+      - uses: actions/checkout@v4
       
-    - name: Build binaries
-      id: build
-      run: |
-        # Get current version for build
-        CURRENT_VERSION=$(grep -oP '(?<=<VersionPrefix>)[^<]+' Directory.Build.props)
-        echo "Building version: $CURRENT_VERSION"
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: ./release
+          
+      - name: Create release assets
+        run: |
+          mkdir -p ./assets
+          cp "./release/framework-dependent/win-x64/RemMeter.exe" "./assets/RemMeter-framework-dependent-win-x64.exe"
+          cp "./release/framework-dependent/win-x86/RemMeter.exe" "./assets/RemMeter-framework-dependent-win-x86.exe"
+          cp "./release/self-contained/win-x64/RemMeter.exe" "./assets/RemMeter-self-contained-win-x64.exe"
+          cp "./release/self-contained/win-x86/RemMeter.exe" "./assets/RemMeter-self-contained-win-x86.exe"
+          
+      - name: Delete previous latest release
+        run: |
+          if gh release view latest >/dev/null 2>&1; then
+            echo "Deleting existing latest release..."
+            gh release delete latest --yes --cleanup-tag
+          else
+            echo "No previous latest release found"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Create Latest Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: latest
+          name: "Latest Build"
+          body: |
+            Latest build from master branch.
+            
+            **Framework-dependent** (requires .NET 8.0 Runtime):
+            - RemMeter-framework-dependent-win-x64.exe (64-bit)
+            - RemMeter-framework-dependent-win-x86.exe (32-bit)
+            
+            **Self-contained** (no runtime required):
+            - RemMeter-self-contained-win-x64.exe (64-bit)  
+            - RemMeter-self-contained-win-x86.exe (32-bit)
+          files: |
+            ./assets/RemMeter-framework-dependent-win-x64.exe
+            ./assets/RemMeter-framework-dependent-win-x86.exe
+            ./assets/RemMeter-self-contained-win-x64.exe
+            ./assets/RemMeter-self-contained-win-x86.exe
+          draft: false
+          prerelease: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-tagged:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Get version from tag
+        id: get_version
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
         
-        # Build Framework-dependent binaries
-        dotnet publish wpf/RemMeter.csproj --configuration Release --runtime win-x64 --self-contained false --output ./build/framework-dependent/win-x64 --property:PublishSingleFile=true
-        dotnet publish wpf/RemMeter.csproj --configuration Release --runtime win-x86 --self-contained false --output ./build/framework-dependent/win-x86 --property:PublishSingleFile=true
-        
-        # Build Self-contained binaries  
-        dotnet publish wpf/RemMeter.csproj --configuration Release --runtime win-x64 --self-contained true --output ./build/self-contained/win-x64 --property:PublishSingleFile=true --property:PublishTrimmed=false
-        dotnet publish wpf/RemMeter.csproj --configuration Release --runtime win-x86 --self-contained true --output ./build/self-contained/win-x86 --property:PublishSingleFile=true --property:PublishTrimmed=false
-        
-    - name: Prepare release assets
-      run: |
-        # This script will be called by semantic-release with the new version
-        cat > prepare-release.sh << 'EOF'
-        #!/bin/bash
-        VERSION=$1
-        echo "Preparing release assets for version: $VERSION"
-        
-        mkdir -p release
-        
-        # Copy and rename with version
-        cp "./build/framework-dependent/win-x64/RemMeter.exe" "./release/RemMeter-${VERSION}-framework-dependent-win-x64.exe"
-        cp "./build/framework-dependent/win-x86/RemMeter.exe" "./release/RemMeter-${VERSION}-framework-dependent-win-x86.exe"  
-        cp "./build/self-contained/win-x64/RemMeter.exe" "./release/RemMeter-${VERSION}-self-contained-win-x64.exe"
-        cp "./build/self-contained/win-x86/RemMeter.exe" "./release/RemMeter-${VERSION}-self-contained-win-x86.exe"
-        
-        echo "Release files prepared:"
-        ls -la ./release/
-        EOF
-        
-        chmod +x prepare-release.sh
-        
-    - name: Release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        # Run semantic-release with custom prepare step
-        cat > .releaserc.json << 'EOF'
-        {
-          "branches": ["master"],
-          "plugins": [
-            "@semantic-release/commit-analyzer",
-            "@semantic-release/release-notes-generator",
-            [
-              "@semantic-release/changelog",
-              {
-                "changelogFile": "CHANGELOG.md"
-              }
-            ],
-            [
-              "@semantic-release/exec",
-              {
-                "prepareCmd": "sed -i 's/<VersionPrefix>[^<]*<\\/VersionPrefix>/<VersionPrefix>${nextRelease.version}<\\/VersionPrefix>/' Directory.Build.props && ./prepare-release.sh ${nextRelease.version}"
-              }
-            ],
-            [
-              "@semantic-release/github",
-              {
-                "assets": [
-                  {
-                    "path": "release/RemMeter-${nextRelease.version}-framework-dependent-win-x64.exe",
-                    "label": "RemMeter v${nextRelease.version} - Framework-dependent Windows x64"
-                  },
-                  {
-                    "path": "release/RemMeter-${nextRelease.version}-framework-dependent-win-x86.exe", 
-                    "label": "RemMeter v${nextRelease.version} - Framework-dependent Windows x86"
-                  },
-                  {
-                    "path": "release/RemMeter-${nextRelease.version}-self-contained-win-x64.exe",
-                    "label": "RemMeter v${nextRelease.version} - Self-contained Windows x64"
-                  },
-                  {
-                    "path": "release/RemMeter-${nextRelease.version}-self-contained-win-x86.exe",
-                    "label": "RemMeter v${nextRelease.version} - Self-contained Windows x86"
-                  }
-                ],
-                "releaseBodyTemplate": "## RemMeter v${nextRelease.version}\n\n### 📥 Installation\n\nDownload the appropriate version for your system:\n\n#### 🎯 Framework-dependent (Recommended - Smaller size ~5-10MB)\n- **RemMeter-${nextRelease.version}-framework-dependent-win-x64.exe** - 64-bit Windows\n- **RemMeter-${nextRelease.version}-framework-dependent-win-x86.exe** - 32-bit Windows\n\n⚠️ **Requires**: .NET 8.0 Desktop Runtime ([Download](https://dotnet.microsoft.com/download/dotnet/8.0))\n\n#### 🔧 Self-contained (Larger size ~80-120MB, no runtime required)\n- **RemMeter-${nextRelease.version}-self-contained-win-x64.exe** - 64-bit Windows\n- **RemMeter-${nextRelease.version}-self-contained-win-x86.exe** - 32-bit Windows\n\n✅ **No .NET runtime required** - runs on any Windows PC\n\n### 💻 System Requirements\n- Windows 10/11\n- Framework-dependent: .NET 8.0 Desktop Runtime\n- Self-contained: No additional software required\n\n---\n\n### 🔄 Changes\n\n${nextRelease.notes}"
-              }
-            ],
-            [
-              "@semantic-release/git",
-              {
-                "assets": ["Directory.Build.props", "CHANGELOG.md"],
-                "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
-              }
-            ]
-          ]
-        }
-        EOF
-        
-        npx semantic-release
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: ./release
+          
+      - name: Create versioned release assets
+        run: |
+          VERSION="${{ steps.get_version.outputs.version }}"
+          mkdir -p ./assets
+          cp "./release/framework-dependent/win-x64/RemMeter.exe" "./assets/RemMeter-${VERSION}-framework-dependent-win-x64.exe"
+          cp "./release/framework-dependent/win-x86/RemMeter.exe" "./assets/RemMeter-${VERSION}-framework-dependent-win-x86.exe"
+          cp "./release/self-contained/win-x64/RemMeter.exe" "./assets/RemMeter-${VERSION}-self-contained-win-x64.exe"
+          cp "./release/self-contained/win-x86/RemMeter.exe" "./assets/RemMeter-${VERSION}-self-contained-win-x86.exe"
+          
+      - name: Create Tagged Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ./assets/RemMeter-${{ steps.get_version.outputs.version }}-framework-dependent-win-x64.exe
+            ./assets/RemMeter-${{ steps.get_version.outputs.version }}-framework-dependent-win-x86.exe
+            ./assets/RemMeter-${{ steps.get_version.outputs.version }}-self-contained-win-x64.exe
+            ./assets/RemMeter-${{ steps.get_version.outputs.version }}-self-contained-win-x86.exe
+          name: RemMeter ${{ github.ref_name }}
+          body: |
+            **Framework-dependent** (requires .NET 8.0 Runtime):
+            - RemMeter-framework-dependent-win-x64.exe (64-bit)
+            - RemMeter-framework-dependent-win-x86.exe (32-bit)
+            
+            **Self-contained** (no runtime required):
+            - RemMeter-self-contained-win-x64.exe (64-bit)
+            - RemMeter-self-contained-win-x86.exe (32-bit)
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-versioned:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: ./build
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
