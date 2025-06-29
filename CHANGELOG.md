@@ -1,3 +1,10 @@
+## [0.0.2](https://github.com/yokenzan/rem-meter/compare/v0.0.1...v0.0.2) (2025-06-29)
+
+
+### Bug Fixes
+
+* **release:** correct release notes and workflow ([39a858b](https://github.com/yokenzan/rem-meter/commit/39a858bc8e60bcf79bda5615c50a45a3e96db8f3))
+
 # 0.0.1 (2025-06-29)
 
 
