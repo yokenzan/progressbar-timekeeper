@@ -35,7 +35,7 @@ jobs:
           cp "./release/self-contained/win-x64/RemMeter.exe" "./assets/RemMeter-self-contained-win-x64.exe"
           cp "./release/self-contained/win-x86/RemMeter.exe" "./assets/RemMeter-self-contained-win-x86.exe"
 
-      - name: Delete previous latest release
+      - name: Delete previous latest release and tag
         run: |
           if gh release view latest >/dev/null 2>&1; then
             echo "Deleting existing latest release..."
@@ -43,6 +43,8 @@ jobs:
           else
             echo "No previous latest release found"
           fi
+          # Also delete the local tag if it exists to avoid conflicts
+          git tag -d latest 2>/dev/null || echo "Local latest tag not found"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -129,6 +131,10 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Clean up existing tags to avoid conflicts
+        run: |
+          # Remove the latest tag locally to avoid fetch conflicts
+          git tag -d latest 2>/dev/null || echo "Local latest tag not found"
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
