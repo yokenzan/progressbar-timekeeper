@@ -73,11 +73,11 @@ restore:
 test:
 	dotnet test $(CSPROJ_FILE)
 
-# Format code
+# Format code (fixes StyleCop violations)
 .PHONY: format
 format:
-	dotnet format $(CSPROJ_FILE)
-	dotnet format whitespace $(CSPROJ_FILE)
+	dotnet format style $(CSPROJ_FILE)
+	dotnet format analyzers $(CSPROJ_FILE)
 
 # Show help
 .PHONY: help
