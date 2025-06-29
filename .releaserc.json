@@ -40,7 +40,7 @@
             "name": "RemMeter-${nextRelease.version}-self-contained-win-x86.exe"
           }
         ],
-        "releaseBodyTemplate": "**Framework-dependent** (requires .NET 8.0 Runtime):\\n- RemMeter-framework-dependent-win-x64.exe (64-bit)\\n- RemMeter-framework-dependent-win-x86.exe (32-bit)\\n\\n**Self-contained** (no runtime required):\\n- RemMeter-self-contained-win-x64.exe (64-bit)\\n- RemMeter-self-contained-win-x86.exe (32-bit)\\n\\n### Changes\\n\\n${nextRelease.notes}"
+        "releaseBodyTemplate": "**Framework-dependent** (requires .NET 8.0 Runtime):\n- RemMeter-framework-dependent-win-x64.exe (64-bit)\n- RemMeter-framework-dependent-win-x86.exe (32-bit)\n\n**Self-contained** (no runtime required):\n- RemMeter-self-contained-win-x64.exe (64-bit)\n- RemMeter-self-contained-win-x86.exe (32-bit)\n\n### Changes\n\n${nextRelease.notes}"
       }
     ],
     [
