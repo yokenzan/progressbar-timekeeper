@@ -1,0 +1,49 @@
+{
+  "branches": ["master"],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "CHANGELOG.md"
+      }
+    ],
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "sed -i 's/<VersionPrefix>[^<]*<\\/VersionPrefix>/<VersionPrefix>${nextRelease.version}<\\/VersionPrefix>/' Directory.Build.props"
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          {
+            "path": "release/RemMeter-${nextRelease.version}-framework-dependent-win-x64.exe",
+            "label": "RemMeter Framework-dependent Windows x64"
+          },
+          {
+            "path": "release/RemMeter-${nextRelease.version}-framework-dependent-win-x86.exe", 
+            "label": "RemMeter Framework-dependent Windows x86"
+          },
+          {
+            "path": "release/RemMeter-${nextRelease.version}-self-contained-win-x64.exe",
+            "label": "RemMeter Self-contained Windows x64"
+          },
+          {
+            "path": "release/RemMeter-${nextRelease.version}-self-contained-win-x86.exe",
+            "label": "RemMeter Self-contained Windows x86"
+          }
+        ]
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": ["Directory.Build.props", "CHANGELOG.md"],
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }
+    ]
+  ]
+}
