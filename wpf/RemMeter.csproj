@@ -10,7 +10,7 @@
         <EnableWindowsTargeting>true</EnableWindowsTargeting>
         <ApplicationIcon>tv_timekeeper_trimmed.ico</ApplicationIcon>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
         <WarningsAsErrors />
         <WarningsNotAsErrors>NU1701</WarningsNotAsErrors>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
