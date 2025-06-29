@@ -11,9 +11,11 @@ permissions:
 
 jobs:
   call-build-workflow:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     uses: ./.github/workflows/build.yml
 
   publish-versioned:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     needs: call-build-workflow
     runs-on: ubuntu-latest
     steps:
