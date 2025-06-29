@@ -24,7 +24,7 @@
             "label": "RemMeter v${nextRelease.version} - Framework-dependent Windows x64"
           },
           {
-            "path": "release/RemMeter-${nextRelease.version}-framework-dependent-win-x86.exe", 
+            "path": "release/RemMeter-${nextRelease.version}-framework-dependent-win-x86.exe",
             "label": "RemMeter v${nextRelease.version} - Framework-dependent Windows x86"
           },
           {

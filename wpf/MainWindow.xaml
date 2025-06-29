@@ -17,7 +17,7 @@
                     <TextBlock Text="→" VerticalAlignment="Center" Margin="{StaticResource MediumMargin}" FontSize="{StaticResource LargeFontSize}"/>
                     <TextBlock x:Name="TimeDisplayTextBlock" Text="10:00" Style="{StaticResource TimeDisplayStyle}" MinWidth="60"/>
                 </StackPanel>
-                
+
                 <!-- Quick Time Buttons -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button x:Name="QuickTime1Button" Style="{StaticResource QuickTimeButtonStyle}" Click="OnQuickTimeSelected" Tag="1"/>
@@ -37,13 +37,13 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
                 <TextBlock Text="{Binding Source={x:Static properties:Resources.Position}}" Style="{StaticResource LabelTextStyle}"/>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock x:Name="PositionRightLabel" Text="{Binding Source={x:Static properties:Resources.PositionRight}}" 
+                    <TextBlock x:Name="PositionRightLabel" Text="{Binding Source={x:Static properties:Resources.PositionRight}}"
                                MouseLeftButtonDown="OnPositionSelected" Tag="Right" Style="{StaticResource SelectedPositionLabelStyle}"/>
-                    <TextBlock x:Name="PositionLeftLabel" Text="{Binding Source={x:Static properties:Resources.PositionLeft}}" 
+                    <TextBlock x:Name="PositionLeftLabel" Text="{Binding Source={x:Static properties:Resources.PositionLeft}}"
                                MouseLeftButtonDown="OnPositionSelected" Tag="Left" Style="{StaticResource PositionLabelStyle}"/>
-                    <TextBlock x:Name="PositionTopLabel" Text="{Binding Source={x:Static properties:Resources.PositionTop}}" 
+                    <TextBlock x:Name="PositionTopLabel" Text="{Binding Source={x:Static properties:Resources.PositionTop}}"
                                MouseLeftButtonDown="OnPositionSelected" Tag="Top" Style="{StaticResource PositionLabelStyle}"/>
-                    <TextBlock x:Name="PositionBottomLabel" Text="{Binding Source={x:Static properties:Resources.PositionBottom}}" 
+                    <TextBlock x:Name="PositionBottomLabel" Text="{Binding Source={x:Static properties:Resources.PositionBottom}}"
                                MouseLeftButtonDown="OnPositionSelected" Tag="Bottom">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock" BasedOn="{StaticResource PositionLabelStyle}">
@@ -54,9 +54,9 @@
                 </StackPanel>
             </StackPanel>
 
-            <CheckBox x:Name="RememberSettingsCheckBox" 
-                      Content="{Binding Source={x:Static properties:Resources.RememberMySettings}}" 
-                      HorizontalAlignment="Center" 
+            <CheckBox x:Name="RememberSettingsCheckBox"
+                      Content="{Binding Source={x:Static properties:Resources.RememberMySettings}}"
+                      HorizontalAlignment="Center"
                       Margin="0,0,0,10"
                       IsChecked="True"
                       Checked="RememberSettingsCheckBox_Changed"
@@ -66,4 +66,4 @@
                     Click="OnStartTimerClicked"/>
         </StackPanel>
     </Grid>
-</Window> 
+</Window>

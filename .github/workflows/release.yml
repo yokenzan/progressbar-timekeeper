@@ -20,13 +20,13 @@ jobs:
     if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
           path: ./release
-          
+
       - name: Create release assets
         run: |
           mkdir -p ./assets
@@ -34,7 +34,7 @@ jobs:
           cp "./release/framework-dependent/win-x86/RemMeter.exe" "./assets/RemMeter-framework-dependent-win-x86.exe"
           cp "./release/self-contained/win-x64/RemMeter.exe" "./assets/RemMeter-self-contained-win-x64.exe"
           cp "./release/self-contained/win-x86/RemMeter.exe" "./assets/RemMeter-self-contained-win-x86.exe"
-          
+
       - name: Delete previous latest release
         run: |
           if gh release view latest >/dev/null 2>&1; then
@@ -45,7 +45,7 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: Create Latest Release
         uses: softprops/action-gh-release@v1
         with:
@@ -53,13 +53,13 @@ jobs:
           name: "Latest Build"
           body: |
             Latest build from master branch.
-            
+
             **Framework-dependent** (requires .NET 8.0 Runtime):
             - RemMeter-framework-dependent-win-x64.exe (64-bit)
             - RemMeter-framework-dependent-win-x86.exe (32-bit)
-            
+
             **Self-contained** (no runtime required):
-            - RemMeter-self-contained-win-x64.exe (64-bit)  
+            - RemMeter-self-contained-win-x64.exe (64-bit)
             - RemMeter-self-contained-win-x86.exe (32-bit)
           files: |
             ./assets/RemMeter-framework-dependent-win-x64.exe
@@ -77,17 +77,17 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Get version from tag
         id: get_version
         run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
-        
+
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
           path: ./release
-          
+
       - name: Create versioned release assets
         run: |
           VERSION="${{ steps.get_version.outputs.version }}"
@@ -96,7 +96,7 @@ jobs:
           cp "./release/framework-dependent/win-x86/RemMeter.exe" "./assets/RemMeter-${VERSION}-framework-dependent-win-x86.exe"
           cp "./release/self-contained/win-x64/RemMeter.exe" "./assets/RemMeter-${VERSION}-self-contained-win-x64.exe"
           cp "./release/self-contained/win-x86/RemMeter.exe" "./assets/RemMeter-${VERSION}-self-contained-win-x86.exe"
-          
+
       - name: Create Tagged Release
         uses: softprops/action-gh-release@v1
         with:
@@ -110,7 +110,7 @@ jobs:
             **Framework-dependent** (requires .NET 8.0 Runtime):
             - RemMeter-framework-dependent-win-x64.exe (64-bit)
             - RemMeter-framework-dependent-win-x86.exe (32-bit)
-            
+
             **Self-contained** (no runtime required):
             - RemMeter-self-contained-win-x64.exe (64-bit)
             - RemMeter-self-contained-win-x86.exe (32-bit)

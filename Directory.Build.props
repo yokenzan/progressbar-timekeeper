@@ -2,19 +2,19 @@
   <PropertyGroup>
     <!-- Semantic Versioning -->
     <VersionPrefix>0.0.1</VersionPrefix>
-    
+
     <!-- Assembly and File Version -->
     <AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
     <FileVersion>$(VersionPrefix)</FileVersion>
-    
+
     <!-- Package Version for NuGet (if needed) -->
     <Version>$(VersionPrefix)</Version>
-    
+
     <!-- Product Information -->
     <Product>RemMeter</Product>
     <Company>RemMeter</Company>
     <Copyright>Copyright (c) 2025 RemMeter. Licensed under the MIT License.</Copyright>
-    
+
     <!-- Build Metadata -->
     <RepositoryUrl>https://github.com/yokenzan/rem-meter</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
