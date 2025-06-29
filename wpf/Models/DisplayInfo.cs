@@ -43,5 +43,12 @@ namespace RemMeter.Models
         /// Gets or sets a value indicating whether this display is the primary display.
         /// </summary>
         public bool IsPrimary { get; set; }
+
+        /// <summary>
+        /// Gets the display name for UI binding.
+        /// </summary>
+        public string DisplayName => this.IsPrimary
+            ? $"Primary - {this.Width}x{this.Height}"
+            : $"{this.Width}x{this.Height}";
     }
 }
