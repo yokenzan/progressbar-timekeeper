@@ -73,11 +73,12 @@ restore:
 test:
 	dotnet test $(CSPROJ_FILE)
 
-# Format code
+# Format code (fixes StyleCop violations and removes trailing spaces)
 .PHONY: format
 format:
-	dotnet format $(CSPROJ_FILE)
-	dotnet format whitespace $(CSPROJ_FILE)
+	dotnet format style $(CSPROJ_FILE)
+	dotnet format analyzers $(CSPROJ_FILE)
+	git ls-files | grep -v "\.ico$$" | grep -v "\.png$$" | xargs -I {} sed -i 's/[[:space:]]*$$//' {}
 
 # Show help
 .PHONY: help

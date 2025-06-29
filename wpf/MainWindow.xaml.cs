@@ -38,6 +38,9 @@ namespace RemMeter
                 this.LoadDisplays();
                 Logger.Debug("LoadDisplays completed");
 
+                // Set window title with version
+                this.Title = VersionHelper.GetTitleWithVersion();
+
                 // Initialize time display after UI is fully loaded
                 this.Loaded += (s, e) =>
                 {

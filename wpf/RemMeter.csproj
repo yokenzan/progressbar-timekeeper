@@ -9,20 +9,13 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <EnableWindowsTargeting>true</EnableWindowsTargeting>
         <ApplicationIcon>tv_timekeeper_trimmed.ico</ApplicationIcon>
-        <AssemblyTitle>RemMeter</AssemblyTitle>
-        <Product>RemMeter</Product>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <Copyright>Copyright (c) 2025 RemMeter</Copyright>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <WarningsAsErrors />
         <WarningsNotAsErrors>NU1701</WarningsNotAsErrors>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
-        <!-- Version information -->
-        <Version>0.1.0</Version>
-        <AssemblyVersion>0.1.0</AssemblyVersion>
-        <FileVersion>0.1.0</FileVersion>
-        <InformationalVersion>0.1.0</InformationalVersion>
+        <!-- Version is now managed in Directory.Build.props -->
 
         <!-- Self-containedバイナリサイズ最適化設定 -->
         <PublishReadyToRun>false</PublishReadyToRun>
@@ -33,7 +26,7 @@
         <InvariantGlobalization>false</InvariantGlobalization>
         <MetadataUpdaterSupport>false</MetadataUpdaterSupport>
         <UseSystemResourceKeys>true</UseSystemResourceKeys>
-        
+
         <!-- WPFアプリケーション用のネイティブライブラリ自動展開設定 -->
         <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 
@@ -96,8 +89,8 @@
             <PublishTrimmed>false</PublishTrimmed>
         </PropertyGroup>
 
-        <MSBuild Projects="$(MSBuildProjectFile)" 
-            Targets="Publish" 
+        <MSBuild Projects="$(MSBuildProjectFile)"
+            Targets="Publish"
             Properties="Configuration=$(Configuration);
             Platform=$(Platform);
             PublishDir=$(PublishDir);
@@ -109,4 +102,4 @@
         <Message Text="EXE file generated in $(PublishDir)" Importance="high" />
     </Target>
 
-</Project> 
+</Project>
