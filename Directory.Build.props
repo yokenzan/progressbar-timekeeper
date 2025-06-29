@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <!-- Semantic Versioning -->
-    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionPrefix>0.0.1</VersionPrefix>
 
     <!-- Assembly and File Version -->
     <AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
