@@ -255,3 +255,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsdtest-publish/
+
+/.cursor

@@ -48,9 +48,39 @@
                     <Button x:Name="StopButton"
                             Content="{Binding Source={x:Static properties:Resources.Stop}}"
                             Style="{StaticResource ControlButtonStyle}"
+                            Margin="0,0,0,5"
                             Click="OnTimerStopped"/>
+
+                    <Button x:Name="MoveButton"
+                            Content="{Binding Source={x:Static properties:Resources.Move}}"
+                            Style="{StaticResource ControlButtonStyle}"
+                            Click="OnMoveButtonClicked"/>
                 </StackPanel>
             </StackPanel>
         </Border>
+
+        <!-- 位置選択ポップアップ -->
+        <Popup x:Name="PositionSelectionPopup" StaysOpen="False" Placement="Center">
+            <Border Style="{StaticResource ControlPanelStyle}" Background="White">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="TopButton" Grid.Row="0" Grid.Column="1" Content="↑" Style="{StaticResource PositionButtonStyle}" Tag="Top" Click="OnPositionSelected" ToolTip="{Binding Source={x:Static properties:Resources.MoveToTop}}"/>
+                    <Button x:Name="LeftButton" Grid.Row="1" Grid.Column="0" Content="←" Style="{StaticResource PositionButtonStyle}" Tag="Left" Click="OnPositionSelected" ToolTip="{Binding Source={x:Static properties:Resources.MoveToLeft}}"/>
+                    <Button x:Name="CancelButton" Grid.Row="1" Grid.Column="1" Content="×" Style="{StaticResource PositionButtonStyle}" Click="OnPositionCancelled" ToolTip="{Binding Source={x:Static properties:Resources.CancelMove}}"/>
+                    <Button x:Name="RightButton" Grid.Row="1" Grid.Column="2" Content="→" Style="{StaticResource PositionButtonStyle}" Tag="Right" Click="OnPositionSelected" ToolTip="{Binding Source={x:Static properties:Resources.MoveToRight}}"/>
+                    <Button x:Name="BottomButton" Grid.Row="2" Grid.Column="1" Content="↓" Style="{StaticResource PositionButtonStyle}" Tag="Bottom" Click="OnPositionSelected" ToolTip="{Binding Source={x:Static properties:Resources.MoveToBottom}}"/>
+                </Grid>
+            </Border>
+        </Popup>
     </Grid>
 </Window>

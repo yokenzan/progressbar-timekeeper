@@ -126,6 +126,24 @@
   <data name="Stop" xml:space="preserve">
     <value>Stop</value>
   </data>
+  <data name="Move" xml:space="preserve">
+    <value>Move</value>
+  </data>
+  <data name="MoveToTop" xml:space="preserve">
+    <value>Move to top</value>
+  </data>
+  <data name="MoveToBottom" xml:space="preserve">
+    <value>Move to bottom</value>
+  </data>
+  <data name="MoveToLeft" xml:space="preserve">
+    <value>Move to left</value>
+  </data>
+  <data name="MoveToRight" xml:space="preserve">
+    <value>Move to right</value>
+  </data>
+  <data name="CancelMove" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="Timer" xml:space="preserve">
     <value>Timer</value>
   </data>
