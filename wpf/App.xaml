@@ -94,6 +94,16 @@
             <Setter Property="Height" Value="{StaticResource ButtonHeight}"/>
         </Style>
 
+        <!-- Position Button Style -->
+        <Style x:Key="PositionButtonStyle" TargetType="Button" BasedOn="{StaticResource ControlButtonStyle}">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
         <!-- Primary Button Style -->
         <Style x:Key="PrimaryButtonStyle" TargetType="Button" BasedOn="{StaticResource BaseButtonStyle}">
             <Setter Property="Width" Value="{StaticResource LargeButtonWidth}"/>

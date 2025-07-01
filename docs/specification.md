@@ -51,7 +51,31 @@ This is the primary interface for setting up the timer. It must contain the foll
     - This panel must provide buttons for:
         - **Pause/Resume:** Toggles the timer's countdown.
         - **Stop:** Terminates the timer and dismisses the timer bar.
+        - **Move:** Initiates the dynamic position change functionality.
+    - **Responsive Layout:** The control panel layout shall automatically adapt based on the timer bar position:
+        - **Top/Bottom Edge:** Control buttons are arranged horizontally to fit within the available width.
+        - **Left/Right Edge:** Control buttons are arranged vertically to fit within the available height.
 - The hover control panel should disappear when the cursor moves away from the timer bar area.
+
+### 3.3. Dynamic Position Change During Timer Operation
+
+- **Functionality**: Users shall be able to change the position of the timer bar while the timer is running.
+- **Timer State**: The timer's countdown must continue uninterrupted during the position change process.
+- **Trigger**: A "Change Position" button shall be added to the hover control panel.
+- **Process**:
+    - Clicking the "Move" button shall enter a "position selection mode."
+    - In this mode, a popup interface with directional arrow buttons representing the four possible positions shall be displayed:
+        - **↑** for `Top Edge`
+        - **↓** for `Bottom Edge`  
+        - **←** for `Left Edge`
+        - **→** for `Right Edge`
+        - **×** for cancellation
+    - The current position button shall be hidden to prevent redundant selection.
+    - Clicking one of these directional buttons shall immediately move the timer bar to the selected position and exit the selection mode.
+- **Cancellation**: The position selection mode can be cancelled by one of the following actions, which will hide the position icons:
+    - Clicking the cancel button (×) in the position selection interface.
+    - Clicking anywhere on the screen outside of the position selection icons.
+- **Persistence**: The newly selected position shall be saved as the default for subsequent application launches.
 
 ## 4. Visual and Audio Cues
 
@@ -96,4 +120,10 @@ The color of the timer bar must change dynamically to indicate the urgency of th
     - English (en-US)
     - Japanese (ja-JP)
     - Simplified Chinese (zh-CN)
-    - Traditional Chinese (zh-TW) 
+    - Traditional Chinese (zh-TW)
+- **Localized Components**: The following elements must support localization:
+    - Main window controls (buttons, labels, dropdown options)
+    - Timer control panel buttons (Pause/Resume, Stop, Move)
+    - Position selection interface (tooltips for directional buttons)
+    - System notifications and dialog messages
+    - Error messages and status indicators 

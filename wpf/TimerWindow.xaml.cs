@@ -164,6 +164,28 @@ namespace RemMeter
             var logicalScreenLeft = logicalBounds.Left;
             var logicalScreenTop = logicalBounds.Top;
 
+            // レスポンシブレイアウト：位置に応じてボタンの配置を調整
+            if (this.position == TimerPosition.Top || this.position == TimerPosition.Bottom)
+            {
+                // 上下配置時は水平方向にボタンを並べる
+                this.ButtonStackPanel.Orientation = System.Windows.Controls.Orientation.Horizontal;
+
+                // ボタン間のマージンを水平方向用に調整
+                this.PauseResumeButton.Margin = new Thickness(0, 0, 5, 0);
+                this.StopButton.Margin = new Thickness(0, 0, 5, 0);
+                this.MoveButton.Margin = new Thickness(0, 0, 0, 0);
+            }
+            else
+            {
+                // 左右配置時は垂直方向にボタンを並べる
+                this.ButtonStackPanel.Orientation = System.Windows.Controls.Orientation.Vertical;
+
+                // ボタン間のマージンを垂直方向用に調整
+                this.PauseResumeButton.Margin = new Thickness(0, 0, 0, 5);
+                this.StopButton.Margin = new Thickness(0, 0, 0, 5);
+                this.MoveButton.Margin = new Thickness(0, 0, 0, 0);
+            }
+
             switch (this.position)
             {
                 case TimerPosition.Right:
@@ -420,6 +442,65 @@ namespace RemMeter
             {
                 Logger.Error("OnTimerStopped failed - invalid argument", ex);
             }
+        }
+
+        private void OnMoveButtonClicked(object sender, RoutedEventArgs e)
+        {
+            // Show the position selection popup
+            if (sender is System.Windows.Controls.Button button)
+            {
+                this.PositionSelectionPopup.PlacementTarget = button;
+                this.PositionSelectionPopup.IsOpen = true;
+            }
+
+            // Hide the button for the current position
+            this.TopButton.Visibility = this.position == TimerPosition.Top ? Visibility.Collapsed : Visibility.Visible;
+            this.BottomButton.Visibility = this.position == TimerPosition.Bottom ? Visibility.Collapsed : Visibility.Visible;
+            this.LeftButton.Visibility = this.position == TimerPosition.Left ? Visibility.Collapsed : Visibility.Visible;
+            this.RightButton.Visibility = this.position == TimerPosition.Right ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        private void OnPositionSelected(object sender, RoutedEventArgs e)
+        {
+            if (sender is System.Windows.Controls.Button button && button.Tag is string positionString)
+            {
+                Logger.Info($"Position change requested: {positionString}");
+                try
+                {
+                    var newPosition = PositionMapper.ParsePosition(positionString);
+                    if (newPosition != this.position)
+                    {
+                        Logger.Debug($"Changing position from {this.position} to {newPosition}");
+                        this.position = newPosition;
+
+                        // Save the new position to settings
+                        var settings = Properties.Settings.Default;
+                        settings.LastSelectedPosition = this.position.ToString();
+                        settings.Save();
+                        Logger.Debug("Position setting saved");
+
+                        // Update window position and layout
+                        this.SetupWindowPosition();
+                        this.UpdateProgressBar();
+                        Logger.Info($"Position change completed successfully: {newPosition}");
+                    }
+                    else
+                    {
+                        Logger.Debug("Position unchanged - same as current position");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error($"Failed to change position to {positionString}", ex);
+                }
+            }
+
+            this.PositionSelectionPopup.IsOpen = false;
+        }
+
+        private void OnPositionCancelled(object sender, RoutedEventArgs e)
+        {
+            this.PositionSelectionPopup.IsOpen = false;
         }
     }
 }

@@ -126,6 +126,24 @@
   <data name="Stop" xml:space="preserve">
     <value>停止</value>
   </data>
+  <data name="Move" xml:space="preserve">
+    <value>移動</value>
+  </data>
+  <data name="MoveToTop" xml:space="preserve">
+    <value>移至頂部</value>
+  </data>
+  <data name="MoveToBottom" xml:space="preserve">
+    <value>移至底部</value>
+  </data>
+  <data name="MoveToLeft" xml:space="preserve">
+    <value>移至左側</value>
+  </data>
+  <data name="MoveToRight" xml:space="preserve">
+    <value>移至右側</value>
+  </data>
+  <data name="CancelMove" xml:space="preserve">
+    <value>取消</value>
+  </data>
   <data name="Timer" xml:space="preserve">
     <value>計時器</value>
   </data>

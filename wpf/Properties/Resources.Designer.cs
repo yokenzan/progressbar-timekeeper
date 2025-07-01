@@ -283,6 +283,72 @@ namespace RemMeter.Properties
         }
 
         /// <summary>
+        /// Looks up a localized string similar to Move.
+        /// </summary>
+        public static string Move
+        {
+            get
+            {
+                return ResourceManager.GetString("Move", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// Looks up a localized string similar to Move to top.
+        /// </summary>
+        public static string MoveToTop
+        {
+            get
+            {
+                return ResourceManager.GetString("MoveToTop", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// Looks up a localized string similar to Move to bottom.
+        /// </summary>
+        public static string MoveToBottom
+        {
+            get
+            {
+                return ResourceManager.GetString("MoveToBottom", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// Looks up a localized string similar to Move to left.
+        /// </summary>
+        public static string MoveToLeft
+        {
+            get
+            {
+                return ResourceManager.GetString("MoveToLeft", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// Looks up a localized string similar to Move to right.
+        /// </summary>
+        public static string MoveToRight
+        {
+            get
+            {
+                return ResourceManager.GetString("MoveToRight", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string CancelMove
+        {
+            get
+            {
+                return ResourceManager.GetString("CancelMove", resourceCulture);
+            }
+        }
+
+        /// <summary>
         /// Looks up a localized string similar to Timer.
         /// </summary>
         public static string Timer
