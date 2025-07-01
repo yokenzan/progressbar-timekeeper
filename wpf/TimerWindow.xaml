@@ -38,7 +38,7 @@
                           FontSize="{StaticResource HeaderFontSize}"
                           Margin="{StaticResource MediumMargin}"/>
 
-                <StackPanel HorizontalAlignment="Center">
+                <StackPanel x:Name="ButtonStackPanel" HorizontalAlignment="Center">
                     <Button x:Name="PauseResumeButton"
                             Content="{Binding Source={x:Static properties:Resources.Pause}}"
                             Style="{StaticResource ControlButtonStyle}"

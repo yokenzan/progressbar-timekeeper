@@ -164,6 +164,28 @@ namespace RemMeter
             var logicalScreenLeft = logicalBounds.Left;
             var logicalScreenTop = logicalBounds.Top;
 
+            // レスポンシブレイアウト：位置に応じてボタンの配置を調整
+            if (this.position == TimerPosition.Top || this.position == TimerPosition.Bottom)
+            {
+                // 上下配置時は水平方向にボタンを並べる
+                this.ButtonStackPanel.Orientation = System.Windows.Controls.Orientation.Horizontal;
+
+                // ボタン間のマージンを水平方向用に調整
+                this.PauseResumeButton.Margin = new Thickness(0, 0, 5, 0);
+                this.StopButton.Margin = new Thickness(0, 0, 5, 0);
+                this.MoveButton.Margin = new Thickness(0, 0, 0, 0);
+            }
+            else
+            {
+                // 左右配置時は垂直方向にボタンを並べる
+                this.ButtonStackPanel.Orientation = System.Windows.Controls.Orientation.Vertical;
+
+                // ボタン間のマージンを垂直方向用に調整
+                this.PauseResumeButton.Margin = new Thickness(0, 0, 0, 5);
+                this.StopButton.Margin = new Thickness(0, 0, 0, 5);
+                this.MoveButton.Margin = new Thickness(0, 0, 0, 0);
+            }
+
             switch (this.position)
             {
                 case TimerPosition.Right:
