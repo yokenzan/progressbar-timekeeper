@@ -1,3 +1,10 @@
+# [0.1.0](https://github.com/yokenzan/rem-meter/compare/v0.0.2...v0.1.0) (2025-07-01)
+
+
+### Features
+
+* **UI:** Add dynamic position change feature ([5762abb](https://github.com/yokenzan/rem-meter/commit/5762abb2946ad30bbfc5e0d6bf559c61b3cf4d55))
+
 ## [0.0.2](https://github.com/yokenzan/rem-meter/compare/v0.0.1...v0.0.2) (2025-06-29)
 
 
