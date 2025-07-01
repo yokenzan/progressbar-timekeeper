@@ -53,6 +53,21 @@ This is the primary interface for setting up the timer. It must contain the foll
         - **Stop:** Terminates the timer and dismisses the timer bar.
 - The hover control panel should disappear when the cursor moves away from the timer bar area.
 
+### 3.3. Dynamic Position Change During Timer Operation
+
+- **Functionality**: Users shall be able to change the position of the timer bar while the timer is running.
+- **Timer State**: The timer's countdown must continue uninterrupted during the position change process.
+- **Trigger**: A "Change Position" button shall be added to the hover control panel.
+- **Process**:
+    - Clicking the "Change Position" button shall enter a "position selection mode."
+    - In this mode, icons representing the four possible positions (`Top Edge`, `Bottom Edge`, `Left Edge`, `Right Edge`) shall be displayed.
+    - Clicking one of these icons shall immediately move the timer bar to the selected position and exit the selection mode.
+- **Cancellation**: The position selection mode can be cancelled by one of the following actions, which will hide the position icons:
+    - Pressing the `Esc` key.
+    - Clicking the "Change Position" button again.
+    - Clicking anywhere on the screen outside of the position selection icons.
+- **Persistence**: The newly selected position shall be saved as the default for subsequent application launches.
+
 ## 4. Visual and Audio Cues
 
 ### 4.1. Color Progression
