@@ -1,6 +1,6 @@
 # 残り目盛り | RemMeter
 
-<img src="./images/logo.png" alt="RemMeter Logo" style="display: block; margin: 0 auto; max-width: 180px; height: auto;">
+<img src="./images/logo.png" alt="RemMeter Logo" width="30%">
 
 プレゼンテーション等の際に、直感的に残り時間を把握できるお役立ちタイムキーパーです。
 
@@ -67,46 +67,46 @@ dotnet publish -c Release -r win-x86 --self-contained true -p:PublishSingleFile=
 
 ### 初期画面
 
-<img src="./images/main-configuration-window.png" alt="RemMeter main configuration window" style="display: block; margin: 0 auto; max-width: 70%;">
+![Main configuration window](./images/main-configuration-window.png)
 
 ### タイマーバー
 
 | UI | 進捗率(経過時間) |
 |-----|-----|
-| <img src="./images/timer-bar-0_59.png" alt="Timer bar 0-59% progress" style="max-width: 70%;"> | 0～59% |
-| <img src="./images/timer-bar-60_79.png" alt="Timer bar 60-79% progress" style="max-width: 70%;"> | 60～79% |
-| <img src="./images/timer-bar-80_100.png" alt="Timer bar 80-100% progress" style="max-width: 70%;"> | 80～100% |
-| <img src="./images/timer-bar-paused.png" alt="Timer bar paused" style="max-width: 70%;"> | 一時停止中 |
+| <img src="./images/timer-bar-0_59.png" alt="Timer bar 0-59% progress" width="70%"> | 0～59% |
+| <img src="./images/timer-bar-60_79.png" alt="Timer bar 60-79% progress" width="70%"> | 60～79% |
+| <img src="./images/timer-bar-80_100.png" alt="Timer bar 80-100% progress" width="70%"> | 80～100% |
+| <img src="./images/timer-bar-paused.png" alt="Timer bar paused" width="70%"> | 一時停止中 |
 
 ### ホバー時のコントロールパネル
 
-<img src="./images/hover-control-panel.png" alt="Hover control panel" style="display: block; margin: 0 auto;">
+![Hover control panel](./images/hover-control-panel.png)
 
 拡大
 
-<img src="./images/hover-control-panel-zoomed.png" alt="Hover control panel zoomed" style="display: block; margin: 0 auto; max-width: 60%;">
+![Hover control panel zoomed](./images/hover-control-panel-zoomed.png)
 
 ### カウント中のバーの表示位置変更
 
-<img src="./images/position-move-panel.png" alt="Position move panel" style="display: block; margin: 0 auto;">
+![Position move panel](./images/position-move-panel.png)
 
 拡大
 
-<img src="./images/position-move-panel-zoomed.png" alt="Position move panel zoomed" style="display: block; margin: 0 auto; max-width: 60%;">
+![Position move panel zoomed](./images/position-move-panel-zoomed.png)
 
 ### タイムアップ通知
 
-<img src="./images/time-up-notification.png" alt="Time up notification" style="display: block; margin: 0 auto;">
+![Time up notification](./images/time-up-notification.png)
 
 ### 画面全体における表示イメージ
 
 下端(水平表示)
 
-<img src="./images/full-screen-image-timer-bar-horizontal.png" alt="Timer bar at bottom of screen (horizontal)" style="border: 1px solid black; display: block; margin: 0 auto;">
+<kbd>![Timer bar at bottom of screen (horizontal)](./images/full-screen-image-timer-bar-horizontal.png)</kbd>
 
 左端(垂直表示)
 
-<img src="./images/full-screen-image-timer-bar-vertical.png" alt="Timer bar at left edge of screen (vertical)" style="border: 1px solid black; display: block; margin: 0 auto;">
+<kbd>![Timer bar at left edge of screen (vertical)](./images/full-screen-image-timer-bar-vertical.png)</kbd>
 
 ## ライセンス
 
