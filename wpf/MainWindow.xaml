@@ -4,7 +4,7 @@
                 xmlns:properties="clr-namespace:RemMeter.Properties"
         Title="{Binding Source={x:Static properties:Resources.AppTitle}}" Height="350" Width="450"
         WindowStartupLocation="CenterScreen"
-        Icon="tv_timekeeper_trimmed.ico">
+        Icon="logo.ico">
     <Grid>
         <StackPanel Margin="{StaticResource LargeMargin}">
             <!-- Enhanced Timer Input Section -->
