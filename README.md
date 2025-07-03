@@ -1,6 +1,6 @@
 # 残り目盛り | RemMeter
 
-![RemMeter Logo](./images/logo.png)
+<img src="./images/logo.png" alt="RemMeter Logo" style="display: block; margin: 0 auto; max-width: 180px; height: auto;">
 
 プレゼンテーション等の際に、直感的に残り時間を把握できるお役立ちタイムキーパーです。
 
@@ -68,38 +68,46 @@ dotnet publish -c Release -r win-x86 --self-contained true -p:PublishSingleFile=
 
 ### 初期画面
 
-![RemMeter Screenshot](./images/main-configuration-window.png)
+<img src="./images/main-configuration-window.png" alt="RemMeter Screenshot" style="display: block; margin: 0 auto; max-width: 70%;">
 
 ### タイマーバー
 
 | UI | 進捗率(経過時間) |
 |-----|-----|
-| ![RemMeter Screenshot](./images/timer-bar-0_59.png) | 0～59% |
-| ![RemMeter Screenshot](./images/timer-bar-60_79.png) | 60～79% |
-| ![RemMeter Screenshot](./images/timer-bar-80_100.png) | 80～100% |
-| ![RemMeter Screenshot](./images/timer-bar-paused.png) | 一時停止中 |
+| <img src="./images/timer-bar-0_59.png" alt="RemMeter Screenshot" style="max-width: 70%;"> | 0～59% |
+| <img src="./images/timer-bar-60_79.png" alt="RemMeter Screenshot" style="max-width: 70%;"> | 60～79% |
+| <img src="./images/timer-bar-80_100.png" alt="RemMeter Screenshot" style="max-width: 70%;"> | 80～100% |
+| <img src="./images/timer-bar-paused.png" alt="RemMeter Screenshot" style="max-width: 70%;"> | 一時停止中 |
 
 ### ホバー時のコントロールパネル
 
-![RemMeter Screenshot](./images/hover-control-panel.png)
+<img src="./images/hover-control-panel.png" alt="RemMeter Screenshot" style="display: block; margin: 0 auto;">
+
+拡大
+
+<img src="./images/hover-control-panel-zoomed.png" alt="RemMeter Screenshot" style="display: block; margin: 0 auto; max-width: 60%;">
 
 ### カウント中のバーの表示位置変更
 
-![RemMeter Screenshot](./images/position-move-panel.png)
+<img src="./images/position-move-panel.png" alt="RemMeter Screenshot" style="display: block; margin: 0 auto;">
+
+拡大
+
+<img src="./images/position-move-panel-zoomed.png" alt="RemMeter Screenshot" style="display: block; margin: 0 auto; max-width: 60%;">
 
 ### タイムアップ通知
 
-![RemMeter Screenshot](./images/time-up-notification.png)
+<img src="./images/time-up-notification.png" alt="RemMeter Screenshot" style="display: block; margin: 0 auto;">
 
 ### 画面全体における表示イメージ
 
 下端(水平表示)
 
-![RemMeter Screenshot](./images/full-screen-image-timer-bar-horizontal.png)
+<img src="./images/full-screen-image-timer-bar-horizontal.png" alt="RemMeter Screenshot" style="border: 1px solid black; display: block; margin: 0 auto;">
 
 左端(垂直表示)
 
-![RemMeter Screenshot](./images/full-screen-image-timer-bar-vertical.png)
+<img src="./images/full-screen-image-timer-bar-vertical.png" alt="RemMeter Screenshot" style="border: 1px solid black; display: block; margin: 0 auto;">
 
 ## ライセンス
 
