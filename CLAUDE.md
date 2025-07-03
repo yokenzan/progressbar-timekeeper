@@ -8,6 +8,7 @@ RemMeter (formerly seekbar-like-timer) is a WPF desktop application for Windows 
 
 **Tech Stack**: C# (.NET 8.0), WPF, Windows Forms interop
 **Target**: Windows 10/11 only
+**Repository**: https://github.com/yokenzan/rem-meter
 
 ## Common Development Commands
 
@@ -27,10 +28,14 @@ make publish      # Create single executable (self-contained, win-x64)
 make publish-debug # Create debug executable with logging
 ```
 
-### Code Quality
+### Code Quality & Maintenance
 ```bash
 make format       # Format code (IMPORTANT: Run before committing)
+                  # Also removes trailing whitespace from all files
 make test         # Run tests (infrastructure ready, no tests yet)
+make clean        # Remove all build artifacts
+make restore      # Restore NuGet packages
+make help         # Show all available commands
 ```
 
 ### Direct dotnet commands (alternative)
@@ -63,6 +68,8 @@ dotnet format analyzers RemMeter.csproj # Check analyzer issues
 - All styling centralized in `App.xaml`
 - Full i18n support (ja-JP, en-US, zh-CN, zh-TW)
 - Settings persisted via `Properties.Settings`
+- Dynamic position change supported during timer operation
+- Color transitions: Green → Orange (60%) → Red with blinking (80%)
 
 ## CI/CD & Versioning
 
@@ -75,7 +82,7 @@ dotnet format analyzers RemMeter.csproj # Check analyzer issues
 
 ### GitHub Actions Workflows
 1. **ci.yml**: PR checks (build, code style, analyzers)
-2. **build-wpf.yml**: Creates release artifacts
+2. **build.yml**: Creates release artifacts
 3. **release.yml**: Semantic versioning and GitHub releases
 
 ### Commit Message Format
