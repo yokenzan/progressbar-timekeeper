@@ -71,12 +71,12 @@ dotnet publish -c Release -r win-x86 --self-contained true -p:PublishSingleFile=
 
 ### タイマーバー
 
-| UI | 進捗率(経過時間) |
+| UI | 経過時間 |
 |-----|-----|
-| <img src="./images/timer-bar-0_59.png" alt="Timer bar 0-59% progress" width="70%"> | 0～59% |
-| <img src="./images/timer-bar-60_79.png" alt="Timer bar 60-79% progress" width="70%"> | 60～79% |
-| <img src="./images/timer-bar-80_100.png" alt="Timer bar 80-100% progress" width="70%"> | 80～100% |
-| <img src="./images/timer-bar-paused.png" alt="Timer bar paused" width="70%"> | 一時停止中 |
+| ![Timer bar 0-59% progress](./images/timer-bar-0_59.png) | 0～59% |
+| ![Timer bar 60-79% progress](./images/timer-bar-60_79.png) | 60～79% |
+| ![Timer bar 80-100% progress](./images/timer-bar-80_100.png) | 80～100% |
+| ![Timer bar paused](./images/timer-bar-paused.png) | 一時停止 |
 
 ### ホバー時のコントロールパネル
 
@@ -87,6 +87,8 @@ dotnet publish -c Release -r win-x86 --self-contained true -p:PublishSingleFile=
 ![Hover control panel zoomed](./images/hover-control-panel-zoomed.png)
 
 ### カウント中のバーの表示位置変更
+
+バーが下端に表示中の場合
 
 ![Position move panel](./images/position-move-panel.png)
 
