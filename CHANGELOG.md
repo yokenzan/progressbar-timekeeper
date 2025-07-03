@@ -1,3 +1,10 @@
+## [0.2.1](https://github.com/yokenzan/rem-meter/compare/v0.2.0...v0.2.1) (2025-07-03)
+
+
+### Bug Fixes
+
+* replace incorrect time-up notification image ([f1935b0](https://github.com/yokenzan/rem-meter/commit/f1935b0a443b7ee7a049562c36b94a1b88c8ef77))
+
 # [0.2.0](https://github.com/yokenzan/rem-meter/compare/v0.1.0...v0.2.0) (2025-07-03)
 
 
