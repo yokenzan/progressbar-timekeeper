@@ -9,7 +9,7 @@
         Topmost="True"
         ShowInTaskbar="False"
         ResizeMode="NoResize"
-        Icon="tv_timekeeper_trimmed.ico"
+        Icon="logo.ico"
         MouseEnter="OnControlPanelRequested"
         MouseLeave="OnControlPanelHidden">
 
