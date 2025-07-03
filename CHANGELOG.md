@@ -1,3 +1,11 @@
+# [0.2.0](https://github.com/yokenzan/rem-meter/compare/v0.1.0...v0.2.0) (2025-07-03)
+
+
+### Features
+
+* add project images and update README ([38f285b](https://github.com/yokenzan/rem-meter/commit/38f285bd861307c0d5d701299af53e8a165e6d42))
+* replace application icon with new logo ([c7c0de1](https://github.com/yokenzan/rem-meter/commit/c7c0de1d13280bdc759add067eec175486a0ae0d))
+
 # [0.1.0](https://github.com/yokenzan/rem-meter/compare/v0.0.2...v0.1.0) (2025-07-01)
 
 
