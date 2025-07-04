@@ -1,0 +1,53 @@
+name: Test Release Process
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to test (e.g., 0.2.2)'
+        required: true
+        default: '0.2.2'
+
+jobs:
+  test-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+          
+      - name: Simulate version update
+        run: |
+          echo "Simulating semantic-release version update to ${{ github.event.inputs.version }}..."
+          sed -i 's/<VersionPrefix>[^<]*<\/VersionPrefix>/<VersionPrefix>${{ github.event.inputs.version }}<\/VersionPrefix>/' Directory.Build.props
+          echo "Updated Directory.Build.props:"
+          grep VersionPrefix Directory.Build.props
+          
+      - name: Run build script
+        run: |
+          export nextRelease_version="${{ github.event.inputs.version }}"
+          bash .github/scripts/build-release.sh
+          
+      - name: Verify version in built files
+        run: |
+          echo "Checking version in built EXE files..."
+          for exe in build/*/win-x64/RemMeter.exe; do
+            echo "Checking $exe..."
+            if strings "$exe" | grep -q "${{ github.event.inputs.version }}"; then
+              echo "✅ Found version ${{ github.event.inputs.version }} in $exe"
+            else
+              echo "❌ Version ${{ github.event.inputs.version }} NOT found in $exe"
+              exit 1
+            fi
+          done
+          
+      - name: Upload test artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-build-${{ github.event.inputs.version }}
+          path: build/
+          retention-days: 1
