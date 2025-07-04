@@ -1,3 +1,10 @@
+## [0.2.2](https://github.com/yokenzan/rem-meter/compare/v0.2.1...v0.2.2) (2025-07-04)
+
+
+### Bug Fixes
+
+* build release artifacts after version update to fix version mismatch ([0f12ada](https://github.com/yokenzan/rem-meter/commit/0f12ada3082a3c186809bac41b707ea2e6594532))
+
 ## [0.2.1](https://github.com/yokenzan/rem-meter/compare/v0.2.0...v0.2.1) (2025-07-03)
 
 
