@@ -1,5 +1,0 @@
-# DEPRECATED: This workflow is no longer used
-# Build commands have been moved to:
-# - .github/scripts/build-release.sh (for releases)
-# - .github/workflows/ci.yml (for PR checks)
-# This file can be deleted after verifying the new workflows work correctly
