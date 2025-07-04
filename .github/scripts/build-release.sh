@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "Building release artifacts with version ${nextRelease.version}..."
+echo "Building release artifacts..."
 
 # Restore dependencies
 dotnet restore wpf/RemMeter.csproj
