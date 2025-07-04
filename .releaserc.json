@@ -12,7 +12,7 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "sed -i 's/<VersionPrefix>[^<]*<\\/VersionPrefix>/<VersionPrefix>${nextRelease.version}<\\/VersionPrefix>/' Directory.Build.props"
+        "prepareCmd": "sed -i 's/<VersionPrefix>[^<]*<\\/VersionPrefix>/<VersionPrefix>${nextRelease.version}<\\/VersionPrefix>/' Directory.Build.props && bash .github/scripts/build-release.sh"
       }
     ],
     [

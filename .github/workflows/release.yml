@@ -10,13 +10,8 @@ permissions:
   pull-requests: write
 
 jobs:
-  call-build-workflow:
+  release:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
-    uses: ./.github/workflows/build.yml
-
-  publish-versioned:
-    if: "!contains(github.event.head_commit.message, '[skip ci]')"
-    needs: call-build-workflow
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -31,13 +26,12 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
       - name: Install dependencies
         run: npm install
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifacts
-          path: ./build
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
