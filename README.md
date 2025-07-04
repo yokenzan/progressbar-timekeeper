@@ -16,30 +16,29 @@
 - 一時停止
 - タイムアップ通知
 - 常に最前面に表示
+- なぜか4ヶ国語に対応(日本語、英語、簡体字中国語、繁体字中国語)
 
-## WPF版 (Windows専用)
-
-### システム要件
+## システム要件
 - .NET 8.0 SDK以上
 - Windows 10/11
 - マルチディスプレー環境（オプション）
 
-### ダウンロード
+## ダウンロード
 
 [Releases](https://github.com/yokenzan/rem-meter/releases)よりダウンロードできます。
 
-#### Framework-dependent版（サイズ小）
+### Framework-dependent版（サイズ小）
 - `RemMeter-framework-dependent-win-x64.exe` - 64bit Windows用
 - `RemMeter-framework-dependent-win-x86.exe` - 32bit Windows用
 
 > [!NOTE]
 > [.NET 8.0 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0)が必要です。未インストールの場合、アプリ実行時に自動でダウンロードページに案内されます。
 
-#### Self-contained版（サイズ大 .NET 8.0 Desktop Runtime不要）
+### Self-contained版（サイズ大 .NET 8.0 Desktop Runtime不要）
 - `RemMeter-self-contained-win-x64.exe` - 64bit Windows用
 - `RemMeter-self-contained-win-x86.exe` - 32bit Windows用
 
-### ビルド・実行
+## ビルド・実行
 
 ```bash
 cd wpf
