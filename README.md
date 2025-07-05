@@ -1,6 +1,8 @@
 # 残り目盛り | RemMeter
 
-<img src="./images/logo.png" alt="RemMeter Logo" width="30%">
+<img src="./images/logo.png" alt="RemMeter Logo" width="20%">
+
+<kbd>![RemMeter Usage Image](./images/usage-image.png)</kbd>
 
 プレゼンテーション等の際に、直感的に残り時間を把握できるお役立ちタイムキーパーです。
 
