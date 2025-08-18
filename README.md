@@ -10,6 +10,8 @@
 
 単純なアプリケーションなので、操作説明書なしに使えます。
 
+cf) [生成AIにGUIアプリをつくってもらった感想文 - Open Sink, Closed Sink](https://yokenzan.hatenablog.com/entry/develop-gui-application-with-ai)
+
 ## 特色
 
 - 砂時計や動画のシークバーからコンセプトをパクった、視覚的なアナログ進捗表示
